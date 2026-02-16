@@ -56,6 +56,8 @@ body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:v
 .share-btn{bottom:16px;right:72px}
 .now-btn{bottom:72px;right:16px;font-size:14px;font-weight:700;letter-spacing:-.5px}
 .now-btn.hidden{display:none}
+.top-btn{bottom:72px;right:72px;font-size:20px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.top-btn.show{opacity:1;pointer-events:auto}
 .share-toast{position:fixed;bottom:76px;right:16px;z-index:201;background:var(--green);color:#fff;font-size:13px;font-weight:600;padding:8px 14px;border-radius:10px;opacity:0;transition:opacity .3s;pointer-events:none}
 .share-toast.show{opacity:1}
 
@@ -180,6 +182,7 @@ html{scroll-behavior:smooth}
 </nav>
 <div class="fab share-btn" onclick="shareLink()" id="shareBtn">🔗</div>
 <div class="share-toast" id="shareToast">Link copied!</div>
+<div class="fab top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" id="topBtn">↑</div>
 <div class="fab now-btn hidden" onclick="goNow()" id="nowBtn">NOW</div>
 <div class="fab theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
 <div class="hero" id="hero">
@@ -774,7 +777,14 @@ Shower, nap, charge phones.
 </div></div>
 
 <script>
-function toggleDay(el){el.closest('.ds').classList.toggle('open')}
+function toggleDay(el){
+  const ds=el.closest('.ds');
+  const opening=!ds.classList.contains('open');
+  if(opening){
+    document.querySelectorAll('.ds.open').forEach(d=>{if(d!==ds)d.classList.remove('open')});
+  }
+  ds.classList.toggle('open');
+}
 function toggleCat(el){el.closest('.cs').classList.toggle('open')}
 function toggleBlock(el){el.classList.toggle('open')}
 function toggleAlts(el){el.nextElementSibling.classList.toggle('open')}
@@ -931,6 +941,17 @@ function goNow(){
   }
   checkNow();
   setInterval(checkNow,60000);
+})();
+
+// Back to top button — show after scrolling past hero
+(function(){
+  const btn=document.getElementById('topBtn');
+  let last=0;
+  window.addEventListener('scroll',()=>{
+    const y=window.scrollY;
+    btn.classList.toggle('show',y>400);
+    last=y;
+  },{passive:true});
 })();
 
 // Service worker registration
