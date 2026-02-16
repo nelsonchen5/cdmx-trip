@@ -186,7 +186,7 @@ html{scroll-behavior:smooth}
 <div class="fab now-btn hidden" onclick="goNow()" id="nowBtn">NOW</div>
 <div class="fab theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
 <div class="hero" id="hero">
-<h1>🦸 Matty's Mexico Madness 🇲🇽</h1>
+<h1 id="titleTap">🦸 Matty's Mexico Madness 🇲🇽</h1>
 <div class="sub">March 4–7, 2026 · 9 guys · Condesa</div>
 <div class="legend">📋 Nelson</div>
 <a class="addr" href="https://maps.google.com/?q=Campeche+415,+Hipódromo+Condesa,+CDMX" style="font-size:12px;display:block;margin-top:4px">🏠 Campeche 415, Hipódromo Condesa</a>
@@ -953,6 +953,26 @@ function goNow(){
     btn.classList.toggle('show',y>400);
     last=y;
   },{passive:true});
+})();
+
+// Triple-tap title to force refresh + clear cache
+(function(){
+  let taps=0,timer;
+  document.getElementById('titleTap').addEventListener('click',()=>{
+    taps++;
+    clearTimeout(timer);
+    if(taps===3){
+      taps=0;
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.getRegistrations().then(regs=>{
+          regs.forEach(r=>r.unregister());
+        });
+        caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
+      }
+      window.location.reload(true);
+    }
+    timer=setTimeout(()=>taps=0,800);
+  });
 })();
 
 // Service worker registration
