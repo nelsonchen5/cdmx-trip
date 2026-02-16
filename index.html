@@ -63,7 +63,8 @@ body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:v
 
 /* HERO */
 .hero{padding:20px 16px 12px;text-align:center}
-.hero h1{font-family:'Fraunces',serif;font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1.15;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero h1{font-family:'DM Sans',-apple-system,sans-serif;font-size:24px;font-weight:700;letter-spacing:-.5px;line-height:1.15}
+.hero h1 .grad{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .hero .sub{font-size:13px;color:var(--text2);margin-top:4px}
 .legend{display:flex;gap:10px;padding:6px 16px;font-size:11px;color:var(--text2);justify-content:center;flex-wrap:wrap}
 
@@ -186,7 +187,7 @@ html{scroll-behavior:smooth}
 <div class="fab now-btn hidden" onclick="goNow()" id="nowBtn">NOW</div>
 <div class="fab theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
 <div class="hero" id="hero">
-<h1 id="titleTap">🦸 Matty's Mexico Madness 🇲🇽</h1>
+<h1 id="titleTap">🦸 <span class="grad">Matty's Mexico Madness</span> 🇲🇽</h1>
 <div class="sub">March 4–7, 2026 · 9 guys · Condesa</div>
 <div class="legend">📋 Nelson</div>
 <a class="addr" href="https://maps.google.com/?q=Campeche+415,+Hipódromo+Condesa,+CDMX" style="font-size:12px;display:block;margin-top:4px">🏠 Campeche 415, Hipódromo Condesa</a>
