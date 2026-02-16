@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="icon.png">
 <link rel="apple-touch-icon-precomposed" sizes="180x180" href="icon.png">
 <link rel="icon" type="image/png" href="icon.png">
-<title>CDMX Bach Party</title>
+<title>Matty's Mexico Madness</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
 <style>
@@ -186,9 +186,10 @@ html{scroll-behavior:smooth}
 <div class="fab now-btn hidden" onclick="goNow()" id="nowBtn">NOW</div>
 <div class="fab theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
 <div class="hero" id="hero">
-<h1>🇲🇽 CDMX Bachelor Party</h1>
+<h1>🤼 Matty's Mexico Madness 🤼</h1>
 <div class="sub">March 4–7, 2026 · 9 guys · Condesa</div>
 <div class="legend">📋 Nelson</div>
+<a class="addr" href="https://maps.google.com/?q=Campeche+415,+Hipódromo+Condesa,+CDMX" style="font-size:12px;display:block;margin-top:4px">🏠 Campeche 415, Hipódromo Condesa</a>
 </div>
 <div class="res-bar">
 <div class="chip g">✅ Fonda Fina · Wed 7:30p</div>
@@ -821,7 +822,7 @@ function toggleTheme(){
 function shareLink(){
   const url=window.location.href;
   if(navigator.share){
-    navigator.share({title:'CDMX Bach Party',url:url});
+    navigator.share({title:"Matty's Mexico Madness",url:url});
   }else{
     navigator.clipboard.writeText(url).then(()=>{
       const t=document.getElementById('shareToast');
