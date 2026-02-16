@@ -1,4 +1,4 @@
-const CACHE='cdmx-v2';
+const CACHE='cdmx-v3';
 const ASSETS=['./','./index.html','./icon.png'];
 
 self.addEventListener('install',e=>{

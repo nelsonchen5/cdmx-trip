@@ -959,20 +959,24 @@ function goNow(){
 // Triple-tap title to force refresh + clear cache
 (function(){
   let taps=0,timer;
-  document.getElementById('titleTap').addEventListener('click',()=>{
-    taps++;
-    clearTimeout(timer);
-    if(taps===3){
-      taps=0;
-      if('serviceWorker' in navigator){
-        navigator.serviceWorker.getRegistrations().then(regs=>{
-          regs.forEach(r=>r.unregister());
-        });
-        caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
+  const el=document.getElementById('titleTap');
+  ['click','touchend'].forEach(evt=>{
+    el.addEventListener(evt,(e)=>{
+      if(evt==='touchend') e.preventDefault();
+      taps++;
+      clearTimeout(timer);
+      if(taps>=3){
+        taps=0;
+        if('serviceWorker' in navigator){
+          navigator.serviceWorker.getRegistrations().then(regs=>{
+            regs.forEach(r=>r.unregister());
+          });
+          caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
+        }
+        window.location.reload(true);
       }
-      window.location.reload(true);
-    }
-    timer=setTimeout(()=>taps=0,800);
+      timer=setTimeout(()=>taps=0,1200);
+    });
   });
 })();
 
