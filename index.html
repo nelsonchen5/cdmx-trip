@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>CDMX Bach Party</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
+<style>
+[data-theme="dark"]{
+--bg:#0c0c0c;--surface:#161616;--surface2:#1e1e1e;--border:#2a2a2a;
+--text:#e8e4df;--text2:#9a958e;--accent:#e8643a;--accent2:#f0a830;
+--green:#3ab86a;--yellow:#e8c840;--red:#e85050;--blue:#4a9eff;--pink:#e05cb0;
+--food-bdr:#c06020;--drink-bdr:#4a80cc;--party-bdr:#b050a0;--chill-bdr:#4a4a4a;--coffee-bdr:#a07030;
+--rem-bg:#1a1525;--rem-bdr:#3a2a5a;--rem-txt:#c8a0ff;
+--tip-bg:#1a2a1a;--tip-bdr:#2a4a2a;--tip-txt:#7adb7a;
+--warn-bg:#2a2010;--warn-bdr:#4a3a10;--warn-txt:#e8c840;
+--hot-bg:#2a1510;--hot-bdr:#4a2010;--hot-txt:#e8643a;
+--poi-bg:#101a2a;--poi-bdr:#1a3050;--poi-txt:#6ab0e8;
+--cafe-bg:#1a1510;--cafe-bdr:#3a2a15;--cafe-txt:#d4a574;
+--drip-bg:#101520;--drip-bdr:#1a2a40;--drip-txt:#7090c0;
+--main-bg:#1a1008;--main-bdr:var(--accent);
+}
+[data-theme="light"]{
+--bg:#f5f3f0;--surface:#ffffff;--surface2:#f0ede8;--border:#ddd8d0;
+--text:#1a1a1a;--text2:#6a645c;--accent:#d04a1a;--accent2:#c88a10;
+--green:#1a8a40;--yellow:#a08010;--red:#c03030;--blue:#2070cc;--pink:#b03080;
+--food-bdr:#d07030;--drink-bdr:#5090dd;--party-bdr:#c060b0;--chill-bdr:#b0b0b0;--coffee-bdr:#b08040;
+--rem-bg:#f0e8ff;--rem-bdr:#c8a0ff;--rem-txt:#6a30b0;
+--tip-bg:#e8f5e8;--tip-bdr:#80c080;--tip-txt:#1a6a1a;
+--warn-bg:#fff5d0;--warn-bdr:#d0b040;--warn-txt:#7a6010;
+--hot-bg:#fff0e8;--hot-bdr:#e0a080;--hot-txt:#b04010;
+--poi-bg:#e8f0ff;--poi-bdr:#80a8d0;--poi-txt:#1a4a80;
+--cafe-bg:#faf0e8;--cafe-bdr:#d4b090;--cafe-txt:#8a5a20;
+--drip-bg:#e8eef5;--drip-bdr:#8090b0;--drip-txt:#3a4a6a;
+--main-bg:#fff8f0;--main-bdr:var(--accent);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:80px;overflow-x:hidden;transition:background .2s,color .2s}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;display:flex;gap:2px;background:var(--bg);padding:8px 8px 6px;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex-shrink:0;padding:6px 12px;border-radius:20px;font-size:13px;font-weight:600;color:var(--text2);text-decoration:none;background:var(--surface);border:1px solid var(--border);white-space:nowrap;transition:all .15s}
+.nav a.active,.nav a:active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* THEME TOGGLE */
+.theme-toggle{position:fixed;bottom:16px;right:16px;z-index:200;width:48px;height:48px;border-radius:50%;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);transition:all .2s}
+.theme-toggle:active{transform:scale(.9)}
+
+/* HERO */
+.hero{padding:20px 16px 12px;text-align:center}
+.hero h1{font-family:'Fraunces',serif;font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1.15;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .sub{font-size:13px;color:var(--text2);margin-top:4px}
+.legend{display:flex;gap:10px;padding:6px 16px;font-size:11px;color:var(--text2);justify-content:center;flex-wrap:wrap}
+
+/* RESERVATION BAR */
+.res-bar{display:flex;gap:6px;padding:0 12px 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.res-bar::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:7px 11px;border-radius:12px;font-size:12px;font-weight:600;background:var(--surface);border:1px solid var(--border);white-space:nowrap}
+.chip.g{border-color:var(--green);color:var(--green)}
+.chip.y{border-color:var(--yellow);color:var(--yellow)}
+
+/* DAY SECTIONS - Timeline feel */
+.ds{padding:0 12px;margin-bottom:8px}
+.dh{padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;border-left:4px solid var(--accent)}
+.dh h2{font-family:'Fraunces',serif;font-size:18px;font-weight:700;line-height:1.2}
+.dh .tl{font-size:12px;color:var(--text2);margin-top:2px;font-family:'DM Sans',sans-serif;font-weight:400}
+.dh .ar,.ch .ar{font-size:20px;color:var(--text2);transition:transform .2s;flex-shrink:0;margin-left:12px}
+.ds.open .dh .ar,.cs.open .ch .ar{transform:rotate(180deg)}
+.dc{display:none;padding:8px 0 4px}
+.ds.open .dc{display:block}
+
+/* TIME BLOCKS - now with category colors */
+.b{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;border-left:4px solid var(--border)}
+.b.food{border-left-color:var(--food-bdr)}
+.b.drink{border-left-color:var(--drink-bdr)}
+.b.party{border-left-color:var(--party-bdr)}
+.b.chill{border-left-color:var(--chill-bdr)}
+.b.coffee{border-left-color:var(--coffee-bdr)}
+.bh{padding:12px 14px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;user-select:none}
+.bt{font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap;min-width:52px;padding-top:1px}
+.bn{font-weight:700;font-size:15px;line-height:1.3}
+.bn .badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;vertical-align:middle;margin-left:4px}
+.badge-g{background:var(--green);color:#fff}
+.badge-y{background:var(--yellow);color:#000}
+.badge-r{background:var(--red);color:#fff}
+.be{color:var(--text2);font-size:18px;margin-left:auto;flex-shrink:0;transition:transform .2s}
+.b.open .be{transform:rotate(180deg)}
+.bb{display:none;padding:0 14px 14px;font-size:14px;color:var(--text);line-height:1.6}
+.b.open .bb{display:block}
+
+/* MAIN VENUE - highlighted */
+.main{background:var(--main-bg);border:2px solid var(--main-bdr);border-radius:12px;padding:12px 14px;margin:8px 0}
+.main .vn{font-size:15px;color:var(--accent);font-weight:700}
+.main .vm{font-size:12px;color:var(--text2);margin-top:2px}
+.main .vd{font-size:13px;margin-top:6px;color:var(--text)}
+
+/* REGULAR VENUE */
+.v{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin:8px 0}
+.vn{font-weight:700;font-size:14px}
+.vm{font-size:12px;color:var(--text2);margin-top:2px}
+.vd{font-size:13px;margin-top:4px;color:var(--text)}
+
+/* ORDER GUIDE */
+.order{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin:8px 0;border-left:3px solid var(--accent2)}
+.order::before{content:'🍽️ ORDER: ';font-weight:700;color:var(--accent2);font-size:13px}
+
+/* DRESS CODE */
+.dress{background:var(--drip-bg);border:1px solid var(--drip-bdr);border-radius:10px;padding:10px 12px;font-size:13px;margin:8px 0;color:var(--drip-txt)}
+.dress::before{content:'👔 '}
+
+/* ADDRESS LINK */
+a.addr{color:var(--blue);text-decoration:none;font-size:13px;display:inline-block;margin-top:4px}
+a.addr::before{content:'📍 '}
+
+/* ALTERNATES */
+.at{font-size:13px;color:var(--accent);cursor:pointer;padding:6px 0;user-select:none;font-weight:600}
+.ac{display:none;padding-bottom:4px}
+.ac.open{display:block}
+
+/* CATEGORY SECTIONS - different from days */
+.cs{padding:0 12px;margin-bottom:8px}
+.ch{padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.ch h2{font-size:16px;font-weight:700}
+.cc{display:none;padding:8px 0 0}
+.cs.open .cc{display:block}
+
+/* NUMBERED STOPS */
+.sn{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:6px;flex-shrink:0}
+
+/* CALLOUT TYPES */
+.tip{background:var(--tip-bg);border:1px solid var(--tip-bdr);border-radius:10px;padding:10px 12px;font-size:13px;margin:8px 0;color:var(--tip-txt)}
+.warn{background:var(--warn-bg);border:1px solid var(--warn-bdr);border-radius:10px;padding:10px 12px;font-size:13px;margin:8px 0;color:var(--warn-txt)}
+.hot{background:var(--hot-bg);border:1px solid var(--hot-bdr);border-radius:10px;padding:10px 12px;font-size:13px;margin:8px 0;color:var(--hot-txt)}
+.rem{background:var(--rem-bg);border:1px solid var(--rem-bdr);border-radius:10px;padding:10px 12px;font-size:13px;margin:8px 0;color:var(--rem-txt)}
+.rem::before{content:'⏰ ';font-size:14px}
+.poi{background:var(--poi-bg);border:1px solid var(--poi-bdr);border-radius:10px;padding:10px 12px;font-size:13px;margin:8px 0;color:var(--poi-txt)}
+.poi::before{content:'👀 '}
+.cafe-c{background:var(--cafe-bg);border:1px solid var(--cafe-bdr);border-radius:10px;padding:10px 12px;font-size:13px;margin:8px 0;color:var(--cafe-txt)}
+.cafe-c::before{content:'☕ '}
+
+/* RULES & CHECKLISTS */
+.rule{padding:8px 12px;border-left:3px solid var(--accent);margin:6px 0;font-size:13px}
+.check{padding:6px 12px;font-size:13px;margin:4px 0;color:var(--text)}
+.check::before{content:'☐ '}
+.divider{height:1px;background:var(--border);margin:12px 0}
+html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+<a href="#" class="active" onclick="go(event,'hero')">🏠</a>
+<a href="#" onclick="go(event,'pre')">✈️</a>
+<a href="#" onclick="go(event,'wed')">Wed</a>
+<a href="#" onclick="go(event,'thu')">Thu</a>
+<a href="#" onclick="go(event,'fri')">Fri</a>
+<a href="#" onclick="go(event,'sat')">Sat</a>
+<a href="#" onclick="go(event,'nightlife')">🌙</a>
+<a href="#" onclick="go(event,'tacos')">🌮</a>
+<a href="#" onclick="go(event,'cafes')">☕</a>
+<a href="#" onclick="go(event,'pois')">👀</a>
+<a href="#" onclick="go(event,'rules')">⚠️</a>
+</nav>
+<div class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
+<div class="hero" id="hero">
+<h1>🇲🇽 CDMX Bachelor Party</h1>
+<div class="sub">March 4–7, 2026 · 9 guys · Condesa</div>
+<div class="legend">📋 Nelson finds · 🔍 Claude finds</div>
+</div>
+<div class="res-bar">
+<div class="chip g">✅ Fonda Fina · Wed 7:30p</div>
+<div class="chip y">🟡 Handshake · Wed ~9:45p</div>
+<div class="chip g">✅ Contramar · Thu 1:30p</div>
+<div class="chip g">✅ Páramo · Thu 7:30p</div>
+<div class="chip g">✅ Lucha · Fri 8p</div>
+<div class="chip g">✅ La Fête · Sat 1-5p</div>
+</div>
+
+<!-- ===== PRE-TRIP ===== -->
+<div class="ds" id="pre">
+<div class="dh" onclick="toggleDay(this)"><div><h2>✈️ Before You Land</h2><div class="tl">Packing · Airport · First moves</div></div><span class="ar">▾</span></div>
+<div class="dc">
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">📱</span><span class="bn">Download Before You Go</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="check"><strong>Uber</strong> — your lifeline. Add a card for MXN payments</div>
+<div class="check"><strong>DiDi</strong> — Uber alternative, sometimes cheaper/faster</div>
+<div class="check"><strong>Ecobici</strong> — bike share. Day pass ~$3 USD</div>
+<div class="check"><strong>WhatsApp</strong> — how CDMX communicates. Group chat here</div>
+<div class="check"><strong>Google Translate</strong> — download Spanish offline pack</div>
+<div class="check"><strong>Google Maps</strong> — download CDMX offline map</div>
+<div class="tip">Your US phone plan probably works in Mexico (T-Mobile, AT&T, Verizon include it). Check before you leave. If not, buy a Telcel SIM at the airport for ~$15 USD.</div>
+</div></div>
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">🧳</span><span class="bn">Packing List</span><span class="be">▾</span></div>
+<div class="bb">
+<strong>Wear on the plane:</strong>
+<div class="check">Jeans or chinos + sneakers + layer</div>
+<div class="divider"></div>
+<strong>Clothes (4 nights):</strong>
+<div class="check">2 going-out shirts (button-up or nice polo — no graphic tees at night)</div>
+<div class="check">1 pair dark jeans or trousers for nights out</div>
+<div class="check">2-3 day shorts/pants</div>
+<div class="check">Comfortable walking shoes (you'll avg 15k steps/day)</div>
+<div class="check">1 nice pair of shoes for dinners/clubs (clean sneakers fine, no flip flops)</div>
+<div class="check">Light jacket — CDMX is 7,300 ft elevation, nights drop to ~50°F</div>
+<div class="check">🎽 <strong>MATCHING SHIRTS for Xochimilco Saturday</strong> — don't forget</div>
+<div class="divider"></div>
+<strong>Essentials:</strong>
+<div class="check">Sunscreen — altitude = stronger UV, you WILL burn</div>
+<div class="check">Sunglasses</div>
+<div class="check">Portable charger — phone will die from Maps + Uber</div>
+<div class="check">Cash: <strong>withdraw 3,000–4,000 MXN at the airport ATM</strong> (~$170-230 USD)</div>
+<div class="check">Debit card with no foreign transaction fee (Schwab, etc.)</div>
+<div class="check">Passport (obviously)</div>
+<div class="check">Imodium / Pepto — just in case. Street food is worth it.</div>
+<div class="check">Small day bag or crossbody — phone in FRONT pocket at all times</div>
+<div class="divider"></div>
+<strong>Group gear (Nelson coordinating):</strong>
+<div class="check">Bluetooth speaker for Xochimilco</div>
+<div class="check">Matching shirts</div>
+<div class="warn">CDMX is NOT Cancún. People dress well here. Think Brooklyn/Silver Lake vibes, not spring break. Shorts are fine during the day but <strong>don't look chopped at night.</strong></div>
+</div></div>
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">🛬</span><span class="bn">Airport Landing Checklist</span><span class="be">▾</span></div>
+<div class="bb">
+<strong>At MEX airport, in this order:</strong>
+<div class="check"><strong>Immigration:</strong> Fill out the customs form on the plane. Have your passport + return flight info ready</div>
+<div class="check"><strong>ATM:</strong> After baggage claim, hit a bank ATM (Santander, HSBC, Banamex). <strong>Withdraw 3,000-4,000 MXN.</strong> Decline the "conversion" — always choose pesos. Airport ATMs have the best rates.</div>
+<div class="check"><strong>Skip the taxi desk.</strong> Walk outside to the Uber pickup area</div>
+<div class="check"><strong>Uber pickup:</strong> Terminal 1 → Exit 4. Terminal 2 → Ground Floor, Exit 2. Share your pin with the group chat.</div>
+<div class="rem"><strong>Uber to Airbnb is ~25 min, ~200 MXN ($11 USD).</strong> If 2+ of you land together, split one UberXL.</div>
+<div class="tip"><strong>UberXL exists in CDMX</strong> but vehicles are smaller than US XLs (tight third row). Fits 5-6 max. Wait times can be 10-15 min longer. For 9 guys, default to <strong>2 UberXL or 3 regular Ubers</strong> all trip.</div>
+<div class="warn">DO NOT take unmarked taxis or "helpful" guys offering rides inside the terminal. Uber or authorized taxi desk only.</div>
+</div></div>
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">👔</span><span class="bn">Dress Code Cheat Sheet</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="dress"><strong>Daytime:</strong> Whatever you want. Shorts, sneakers, t-shirts all fine. Bring layers — mornings and evenings are cool.</div>
+<div class="dress"><strong>Dinners (Fonda Fina, Contramar, Páramo):</strong> Smart casual. Clean jeans, a collared shirt or nice fitted tee, good sneakers or loafers. No gym shorts, no tank tops. You don't need to be overdressed but don't look chopped.</div>
+<div class="dress"><strong>Handshake Speakeasy:</strong> Step it up. Button-down or polo, dark jeans, real shoes. This is the #1 bar in the world — dress like you belong. No backwards hats.</div>
+<div class="dress"><strong>Clubs (Departamento, Cometa, Fünk):</strong> Dark jeans or trousers, fitted shirt, clean shoes. Bouncers DO turn people away based on appearance. No cargo shorts, no sandals, no chopped fits. Looking put-together gets you in.</div>
+<div class="dress"><strong>Patrick Miller:</strong> Anything goes. It's a sweaty 80s dance party. Wear something you can move in.</div>
+<div class="dress"><strong>Lucha Libre:</strong> Whatever + your lucha mask. It's chaotic and fun, not a style contest.</div>
+<div class="dress"><strong>Xochimilco:</strong> Matching shirts, sunglasses, sunscreen. You'll be on a boat for 4 hrs.</div>
+<div class="tip">General rule: CDMX dresses like a European city. Close-toed shoes are the norm. Hipster/streetwear is the vibe in Roma/Condesa. When in doubt, dark jeans + a good shirt works everywhere.</div>
+</div></div>
+
+</div></div>
+
+<!-- ===== WEDNESDAY ===== -->
+<div class="ds" id="wed">
+<div class="dh" onclick="toggleDay(this)"><div><h2>🛬 Wed, Mar 4</h2><div class="tl">Soft landing → Fonda Fina → Handshake</div></div><span class="ar">▾</span></div>
+<div class="dc">
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">ARRIVE</span><span class="bn">Flight Schedule</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">Brandon — 12:45pm Wed</div><div class="vm">Solo afternoon: explore Condesa, walk Parque México</div></div>
+<div class="v"><div class="vn">Matty + Andrew — 5:00pm</div></div>
+<div class="v"><div class="vn">JR — 5:10pm</div></div>
+<div class="v"><div class="vn">Nelson + Travis — 5:30pm</div></div>
+<div class="v"><div class="vn">George + Vincent — 5:10pm <strong>THURSDAY</strong></div></div>
+<div class="tip">Everyone regroups at Airbnb by ~6pm Wednesday</div>
+<div class="cafe-c"><strong>Brandon's solo lunch zone:</strong> Lardo (5 min), Ojo de Agua (8 min), Chiquitito for matcha near the Airbnb</div>
+</div></div>
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">6:00pm</span><span class="bn">Regroup + Parque México</span><span class="be">▾</span></div>
+<div class="bb">
+Drop bags, quick change. 15-min walk through Parque México (2 blocks).
+<a class="addr" href="https://maps.google.com/?q=Campeche+415,+Hipódromo+Condesa,+CDMX">Campeche 415, Hipódromo Condesa</a>
+<div class="poi"><strong>Parque México:</strong> 9-acre park, 1927 racetrack, Art Deco amphitheater, dog walkers.</div>
+<div class="dress"><strong>Tonight:</strong> Smart casual. Jeans + collared shirt or nice tee for dinner. Step it up a notch for Handshake — button-down, dark jeans, real shoes. No backwards hats.</div>
+</div></div>
+
+<div class="b food" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">7:30pm</span><span class="bn">🍽️ Fonda Fina <span class="badge badge-g">✅ BOOKED</span></span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">📋 Fonda Fina</div><div class="vm">Colima 166, Roma Norte · Elevated Mexican, strong cocktails</div>
+<div class="vd">THE PLAN: eat well but pace yourselves — Handshake is the main event tonight.</div>
+<a class="addr" href="https://maps.google.com/?q=Colima+166,+Roma+Norte,+CDMX">Colima 166</a></div>
+<div class="order">Mole flights, tlayudas, mezcal cocktails. Share plates. Don't overdo it — just enough to fuel the night.</div>
+<div class="rem"><strong>Leave Airbnb by 7:10pm.</strong> 10 min walk or 5 min Uber.</div>
+<div class="at" onclick="event.stopPropagation();toggleAlts(this)">▸ Backups (if Fonda Fina falls through)</div>
+<div class="ac">
+<div class="v"><div class="vn">🔍 Blanco Colima — lively, modern Mexican, good for groups · 5 min walk</div></div>
+<div class="v"><div class="vn">🔍 Fonda Mayora — similar vibe, great mezcal · 8 min walk</div></div>
+</div>
+</div></div>
+
+<div class="b drink" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">9:45pm</span><span class="bn">🍸 Handshake Speakeasy <span class="badge badge-y">🟡 BOOK</span></span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">📋 Handshake Speakeasy — #1 Bar in the World 2024</div><div class="vm">C. Amberes 65, Juárez · Hidden door marked "13"</div>
+<div class="vd">Art Deco interior. 2–3 cocktails over 90 min. Keep it respectful — this isn't a sports bar.</div>
+<a class="addr" href="https://maps.google.com/?q=Amberes+65,+Juárez,+CDMX">C. Amberes 65</a></div>
+<div class="order">Trust the bartenders. Order off-menu or ask for recs. Cocktails are $12-18 USD. No beer.</div>
+<div class="rem"><strong>Walk 15 min from Fonda Fina</strong> or 5 min Uber to Juárez.</div>
+<div class="at" onclick="event.stopPropagation();toggleAlts(this)">▸ If full (walk-in only, no res)</div>
+<div class="ac">
+<div class="v"><div class="vn">📋 Hanky Panky — Turín 52, Juárez · hidden behind multiple doors · same tier</div><a class="addr" href="https://maps.google.com/?q=Turín+52,+Juárez,+CDMX">Turín 52</a></div>
+</div>
+</div></div>
+
+<div class="b drink" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">11:15pm</span><span class="bn">Decision Point</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">🔥 Buzzing → 📋 Limantour — 50 Best, 5 min walk</div><a class="addr" href="https://maps.google.com/?q=Álvaro+Obregón+106,+Roma+Norte,+CDMX">Álvaro Obregón 106</a></div>
+<div class="v"><div class="vn">🥃 One more → Hanky Panky or Long Story Short</div></div>
+<div class="v"><div class="vn">🌮 Done → Taquería Los Amigos — 24/7, 12-peso tacos, 8 min walk</div><a class="addr" href="https://maps.google.com/?q=Monterrey+353,+Roma+Sur,+CDMX">Monterrey 353</a></div>
+<div class="warn">Don't force a club night. Home by midnight. 3 more nights ahead.</div>
+</div></div>
+
+</div></div>
+
+<!-- ===== THURSDAY ===== -->
+<div class="ds" id="thu">
+<div class="dh" onclick="toggleDay(this)"><div><h2>🚲 Thu, Mar 5</h2><div class="tl">Bike → Contramar → Beer → Páramo → Dancing</div></div><span class="ar">▾</span></div>
+<div class="dc">
+
+<div class="b coffee" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">9:30am</span><span class="bn">☕ Coffee + Pastries</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">📋 Café Nin</div><div class="vm">Havre 73, Juárez · 15 min walk — best matcha + pastries in CDMX</div><a class="addr" href="https://maps.google.com/?q=Café+Nin,+Havre+73,+Juárez,+CDMX">Havre 73</a></div>
+<div class="cafe-c"><strong>Closer options:</strong> Chiquitito (Condesa, matcha), Odette (kouign amann), Quentin (Amsterdam 67a, espressonic = espresso+tonic), Blend Station (Tamaulipas 39, tree inside)</div>
+<div class="tip">Eat light. Contramar is lunch and you want to be HUNGRY.</div>
+</div></div>
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">10:30am</span><span class="bn">🚲 Bike Route: Condesa → Roma</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="rem"><strong>Ecobici:</strong> Download app beforehand. Day pass ~$3. Station 2 min from Airbnb. ~45 min ride, all flat.</div>
+<div class="v"><div class="vn"><span class="sn">1</span> Avenida Amsterdam Loop</div><div class="vd">Oval path tracing old racetrack. Art Deco mansions, leafy canopy. 1.2 mi.</div></div>
+<div class="v"><div class="vn"><span class="sn">2</span> Parque México</div><div class="vd">Cut in anywhere — fountains, amphitheater, pro dog walkers.</div></div>
+<div class="v"><div class="vn"><span class="sn">3</span> Parque España → exit north to Roma</div></div>
+<div class="v"><div class="vn"><span class="sn">4</span> Calle Colima → Orizaba</div><div class="vd">Prettiest streets. Mansions, galleries, street art.</div></div>
+<div class="v"><div class="vn"><span class="sn">5</span> Plaza Río de Janeiro</div><div class="vd">David replica + Casa de las Brujas. Photo op.</div><a class="addr" href="https://maps.google.com/?q=Plaza+Río+de+Janeiro,+Roma+Norte,+CDMX">Directions</a></div>
+<div class="v"><div class="vn"><span class="sn">6</span> Álvaro Obregón → Fuente de Cibeles</div></div>
+<div class="poi"><strong>Edificio Basurto</strong> (Av. México 187) — Art Deco, porthole windows. Look up.</div>
+<div class="at" onclick="event.stopPropagation();toggleAlts(this)">▸ Pit stops along the ride</div>
+<div class="ac">
+<div class="v"><div class="vn">🔍 Panadería Rosetta — Colima 179, guava roll is legendary</div><a class="addr" href="https://maps.google.com/?q=Colima+179,+Roma+Norte,+CDMX">Colima 179</a></div>
+<div class="v"><div class="vn">🔍 SAINT — pain au chocolat rivals France</div></div>
+<div class="v"><div class="vn">🔍 House of Gaga — Amsterdam, avant-garde gallery, free</div></div>
+<div class="v"><div class="vn">🔍 El Péndulo — Álvaro Obregón 86, bookstore + rooftop</div></div>
+</div>
+</div></div>
+
+<div class="b drink" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">~12pm</span><span class="bn">🍺 Pre-Lunch Drink</span><span class="be">▾</span></div>
+<div class="bb">
+Drop bikes. ONE drink before Contramar:
+<div class="main"><div class="vn">🔍 Mercado Roma (upstairs beer garden)</div><div class="vm">Querétaro 225 · 5 min to Contramar — cold beer, no res needed</div><a class="addr" href="https://maps.google.com/?q=Querétaro+225,+Roma+Norte,+CDMX">Querétaro 225</a></div>
+<div class="v"><div class="vn">🔍 Baltra Bar — Infatuation top-19, sidewalk seating · 7 min to Contramar</div></div>
+<div class="v"><div class="vn">🔍 Brujas — 50 Best extended list · 8 min</div></div>
+</div></div>
+
+<div class="b food" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">1:30pm</span><span class="bn">🐟 Contramar <span class="badge badge-g">✅ BOOKED · 7</span></span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">📋 Contramar — Bucket-list restaurant</div><div class="vm">Durango 200, Roma Norte · Family-style, loud, a scene</div><a class="addr" href="https://maps.google.com/?q=Durango+200,+Roma+Norte,+CDMX">Durango 200</a></div>
+<div class="order"><strong>Tostadas de atún</strong> (half red/half green) · <strong>Pescado a la Talla</strong> (whole grilled fish, THE signature) · ceviche · pulpo · micheladas or cold beers. Order family-style. This is the meal everyone will talk about.</div>
+<div class="rem"><strong>Walk from drink spot by 1:15pm.</strong> All options are 5–8 min to Contramar.</div>
+<div class="tip">Budget 90 min. The scene is part of the meal — enjoy it.</div>
+</div></div>
+
+<div class="b drink" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">3:00pm</span><span class="bn">🍺 Craft Beer Crawl</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">📋 Falling Piano</div><div class="vm">Coahuila 99 · 10 min from Contramar — piano suspended over vats, 12+ taps</div><a class="addr" href="https://maps.google.com/?q=Coahuila+99,+Roma+Norte,+CDMX">Coahuila 99</a></div>
+<div class="v"><div class="vn">🔍 Drunkendog — 34 taps, best list, patio · 5 min from Falling Piano</div></div>
+<div class="v"><div class="vn">🔍 La Roma Brewing — 23 taps · closest to Contramar</div></div>
+<div class="v"><div class="vn">🔍 Escollo — OG since 2009, ~60 pesos ($3.50)</div></div>
+<div class="rem"><strong>Head back by 4pm.</strong> George + Vincent land 5:10pm. Regroup ~6:30.</div>
+</div></div>
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">4–6:30p</span><span class="bn">🛏️ Reset · George + Vincent arrive</span><span class="be">▾</span></div>
+<div class="bb">
+Shower, nap, charge phones.
+<div class="v"><div class="vn">Optional snack: Orinoco — al pastor, 10 min walk, 2-3 tacos, save room</div></div>
+<div class="dress"><strong>Tonight:</strong> Smart casual for Páramo. If going dancing after, pack a second outfit or wear dark jeans + good shirt that works at both. Don't look chopped if you're hitting Departamento or Supra later.</div>
+</div></div>
+
+<div class="b food" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">7:30pm</span><span class="bn">🍽️ Páramo <span class="badge badge-g">✅ BOOKED · 9</span></span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">📋 Páramo — The "everyone together" dinner</div><div class="vm">Yucatán 84, Roma Norte · 9 guys, proper meal, heavy drinks</div><a class="addr" href="https://maps.google.com/?q=Yucatán+84,+Roma+Norte,+CDMX">Yucatán 84</a></div>
+<div class="order">Share plates, mezcal cocktails, wood-fired dishes. This is the big group dinner — go all out.</div>
+<div class="rem"><strong>Leave Airbnb by 7:10pm.</strong> 10 min walk. First dinner as full group of 9.</div>
+</div></div>
+
+<div class="b party" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">9:30pm</span><span class="bn">🌃 Rooftop → Dancing</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">📋 Salón Palomilla — hidden rooftop ABOVE Páramo</div><div class="vm">Walk upstairs after dinner. Easy transition.</div></div>
+<div class="v"><div class="vn">📋 Supra — 14th floor, 360° views, DJ · 5 min walk</div><a class="addr" href="https://maps.google.com/?q=Álvaro+Obregón+151,+Roma+Norte,+CDMX">Álvaro Obregón 151</a></div>
+<div class="divider"></div>
+<strong>11pm — Dancing:</strong>
+<div class="v"><div class="vn">📋 Departamento ⭐ — rooftop + TACO STAND on dance floor · walk from rooftop</div><a class="addr" href="https://maps.google.com/?q=Álvaro+Obregón+154,+Roma+Norte,+CDMX">Álvaro Obregón 154</a></div>
+<div class="v"><div class="vn">📋 Cometa Disco — hidden entrance, world-class sound</div></div>
+<div class="v"><div class="vn">📋 Bar Oriente — Durango 181, club+izakaya+karaoke, 3 floors</div></div>
+<div class="hot">2am tacos: El Kalimán (5 min, til 4am) · Los Amigos (24/7) · El Vilsito (mechanic shop, til 4am)</div>
+</div></div>
+
+</div></div>
+
+<!-- ===== FRIDAY ===== -->
+<div class="ds" id="fri">
+<div class="dh" onclick="toggleDay(this)"><div><h2>🤼 Fri, Mar 6</h2><div class="tl">Taco crawl → Centro or chill → Lucha Libre → Night out</div></div><span class="ar">▾</span></div>
+<div class="dc">
+
+<div class="b coffee" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">9:30am</span><span class="bn">☕ Coffee</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="cafe-c"><strong>Mix it up from yesterday:</strong> Blend Station (tree in the café), Forte (cortado + brunch), Boicot (Veracruz beans, braided bread), Hule (vinyl + coffee)</div>
+</div></div>
+
+<div class="b food" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">10:30am</span><span class="bn">🌮 Street Taco Crawl ⭐</span><span class="be">▾</span></div>
+<div class="bb">
+~2 hrs walking. 2–3 tacos per stop. <strong>Every stop is Michelin/Netflix-level.</strong>
+<div class="main"><div class="vn"><span class="sn">1</span> 📋 El Hidalguense 🐑 — FRI-SUN ONLY</div><div class="vm">Campeche 155 · 2 min from Airbnb — Netflix Taco Chronicles</div>
+<div class="vd">Best barbacoa in the city. Get the consommé on the side.</div><a class="addr" href="https://maps.google.com/?q=Campeche+155,+Roma+Sur,+CDMX">2 min walk</a></div>
+<div class="v"><div class="vn"><span class="sn">2</span> 📋 Orinoco 🐷 — Yucatán 3 · 12 min walk</div><div class="vd">Al pastor with orange salsa. Chicharrón.</div><a class="addr" href="https://maps.google.com/?q=Yucatán+3,+Hipódromo,+CDMX">Yucatán 3</a></div>
+<div class="v"><div class="vn"><span class="sn">3</span> 📋 Los Parados 🔥 — Monterrey 333 · 15 min · Michelin</div><div class="vd">Standing tacos, charcoal-grilled. Longaniza, costilla, suadero.</div><a class="addr" href="https://maps.google.com/?q=Monterrey+333,+Roma+Sur,+CDMX">Monterrey 333</a></div>
+<div class="v"><div class="vn"><span class="sn">4</span> 📋 El Tizoncito 🕺 — Tamaulipas 122 · 10 min home</div><div class="vd">Claims to have INVENTED al pastor in the 1960s.</div><a class="addr" href="https://maps.google.com/?q=Tamaulipas+122,+Condesa,+CDMX">Tamaulipas 122</a></div>
+<div class="at" onclick="event.stopPropagation();toggleAlts(this)">▸ Swap-ins</div>
+<div class="ac">
+<div class="v"><div class="vn">🔍 Tacos Los Alexis — BIB GOURMAND 2025</div></div>
+<div class="v"><div class="vn">📋 Maizajo — Michelin, best tortillas in the city</div></div>
+</div>
+</div></div>
+
+<div class="b drink" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">12:30pm</span><span class="bn">🍹 Afternoon: Centro or Local</span><span class="be">▾</span></div>
+<div class="bb">
+<strong>Option A: Centro Histórico ⭐ (25 min Uber, 3 cars)</strong>
+<div class="main"><div class="vn">🔍 La Faena cantina</div><div class="vm">V. Carranza 49 — free botanas with drinks, bullfighting museum on the walls, beautiful tile</div><a class="addr" href="https://maps.google.com/?q=Venustiano+Carranza+49,+Centro,+CDMX">V. Carranza 49</a></div>
+<div class="v"><div class="vn">🔍 La Opera — Av. 5 de Mayo 10 — most famous cantina in CDMX, 19th century, marble + stained glass. A bullet hole from Pancho Villa is allegedly in the ceiling. Order a margarita or cold beer.</div><a class="addr" href="https://maps.google.com/?q=La+Opera+Bar,+5+de+Mayo+10,+Centro,+CDMX">5 de Mayo 10</a></div>
+<div class="v"><div class="vn">🔍 Bósforo — hidden mezcal bar, curtain entrance, handwritten menu, jazz, standing room. Coolest vibe in Centro.</div><a class="addr" href="https://maps.google.com/?q=Bósforo+Mezcalería,+Centro,+CDMX">Directions</a></div>
+<div class="v"><div class="vn">🔍 Tío Pepe — since 1870, swinging saloon doors, Art Nouveau bar, divey in the best way</div><a class="addr" href="https://maps.google.com/?q=Tío+Pepe+cantina,+Independencia+26,+Centro,+CDMX">Independencia 26</a></div>
+<div class="v"><div class="vn">🔍 Zinco Jazz Club — underground jazz, cool cover, opens late</div></div>
+<div class="poi"><strong>While in Centro:</strong> Walk the Zócalo (massive central square), peek at the Cathedral and Templo Mayor ruins (Aztec pyramid foundations), stroll Madero pedestrian street. 30 min of walking gives you the full picture.</div>
+<div class="rem">Order 3 Ubers or try 2 UberXL. 25 min each way. Budget 2.5 hrs total for Centro.</div>
+<div class="divider"></div>
+<strong>Option B: Stay local ⭐</strong>
+<div class="v"><div class="vn">📋 Supra rooftop — 14th floor, 360° views · 8 min walk</div></div>
+<div class="v"><div class="vn">🔍 La Botica mezcal — 5 min, massive, cheap, sidewalk scene</div></div>
+<div class="v"><div class="vn">📋 Tlecan — North America's 50 Best, pre-Hispanic tomb vibes</div></div>
+<div class="poi"><strong>MODO Object Museum</strong> (Roma) — quirky design, 50 pesos, 1 hr. Old ads, Mexican pop culture.</div>
+</div></div>
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">3:30pm</span><span class="bn">🛏️ Full Reset</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="warn">Non-negotiable. Lucha + full night ahead. Nap, shower, hydrate.</div>
+<div class="dress"><strong>Tonight:</strong> Casual for Lucha (whatever + your mask). If hitting Patrick Miller or clubs after, change into dark jeans + fitted shirt when you get back from Arena. Don't go to Departamento looking like you just left a wrestling match.</div>
+</div></div>
+
+<div class="b drink" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">6:15pm</span><span class="bn">🍕 Pre-Lucha: Jardín Juárez ⭐</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">🔍 Jardín Juárez — BEST PREGAME</div><div class="vm">Av. Chapultepec 61 · 2 min walk to Arena México</div>
+<div class="vd">1000 sqm beer garden. Picnic tables, craft beer, DJ on Fridays. THE move for 9 guys before Lucha.</div><a class="addr" href="https://maps.google.com/?q=Jardín+Juárez,+Chapultepec+61,+Cuauhtémoc,+CDMX">Chapultepec 61</a></div>
+<div class="rem"><strong>ORDER 3 UBERS AT 5:45pm.</strong> Airbnb → Jardín Juárez is ~15 min. Be there by 6:15 for food + beers.</div>
+<div class="rem"><strong>🎭 BUY LUCHA MASKS</strong> from vendors outside Arena BEFORE entering. ~50-100 pesos each (~$3-6). Get one for everyone.</div>
+</div></div>
+
+<div class="b party" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">8:00pm</span><span class="bn">🤼 Lucha Libre <span class="badge badge-g">✅ BOOKED</span></span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">🎭 Arena México — Trip highlight</div><div class="vm">Dr. Lavista 197 · Loud, chaotic, incredible</div><a class="addr" href="https://maps.google.com/?q=Arena+México,+Dr.+Lavista+197,+CDMX">Dr. Lavista 197</a></div>
+<div class="order">Buy beers from vendors in the stands. Scream at wrestlers. Wear your masks. This is pure joy.</div>
+<div class="rem"><strong>Walk from Jardín Juárez → Arena is 2 min.</strong> In seats by 7:45. Show starts 8pm sharp.</div>
+<div class="rem"><strong>~10pm: ORDER 3 UBERS from Arena.</strong> 15–20 min back to Roma/Condesa. Door-to-door only.</div>
+<div class="warn">Doctores neighborhood is NOT for wandering. Uber in, Uber out.</div>
+</div></div>
+
+<div class="b party" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">10:30pm</span><span class="bn">🌙 Friday Night</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">🕺 PATRICK MILLER ⭐ — FRIDAY ONLY</div><div class="vm">Mérida 17, Roma · ~100 pesos · 10pm–3:30am</div>
+<div class="vd">Legendary 30-yr dance club. Hi-NRG disco, 80s, dance circles. <strong>Best story of the trip.</strong> Anything goes dress-wise — it's a sweaty party.</div><a class="addr" href="https://maps.google.com/?q=Mérida+17,+Roma+Norte,+CDMX">12 min from Airbnb</a></div>
+<div class="divider"></div>
+<div class="v"><div class="vn">🔥 Rage → Cometa Disco or Departamento (dress up)</div></div>
+<div class="v"><div class="vn">🥃 Mezcal → Tlecan → La Clandestina → La Botica</div></div>
+<div class="v"><div class="vn">😎 Medium → Bar Oriente (3 floors) · Fünk</div></div>
+<div class="hot">Late tacos: El Vilsito (til 4am) · Los Amigos (24/7) · El Kalimán (5 min)</div>
+</div></div>
+
+</div></div>
+
+<!-- ===== SATURDAY ===== -->
+<div class="ds" id="sat">
+<div class="dh" onclick="toggleDay(this)"><div><h2>🎉 Sat, Mar 7</h2><div class="tl">Brunch → Xochimilco → Reset → Grand finale</div></div><span class="ar">▾</span></div>
+<div class="dc">
+
+<div class="b food" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">10:00am</span><span class="bn">🥞 Brunch</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">🔍 Lardo</div><div class="vm">Agustín Melgar, Condesa — efficient, good for groups, Italian-Mexican</div><a class="addr" href="https://maps.google.com/?q=Lardo,+Agustín+Melgar,+Condesa,+CDMX">Lardo</a></div>
+<div class="v"><div class="vn">📋 Maizajo — Michelin tortillas · 8 min</div></div>
+<div class="cafe-c"><strong>More:</strong> Forte (wood-fired brunch), Niddo (sandwiches), Ojo de Agua (smoothies)</div>
+</div></div>
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">11:30am</span><span class="bn">🎒 Pack for Xochimilco</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="check">☀️ Sunscreen (you're on water for 4 hrs, you WILL fry)</div>
+<div class="check">🔊 Bluetooth speaker</div>
+<div class="check">💵 Cash for tips + food boats</div>
+<div class="check">👕 <strong>MATCHING SHIRTS ON</strong></div>
+<div class="check">🧴 Wet wipes</div>
+<div class="check">🕶️ Sunglasses</div>
+<div class="check">💧 Water bottles</div>
+<div class="rem"><strong>ORDER 3 UBERS (or 2 UberXL) AT 12:00pm SHARP.</strong> Xochimilco is 40–50 min. Saturday traffic south is worse.</div>
+<div class="rem"><strong>Leave Airbnb by 12:15pm latest.</strong> You CANNOT be late for this.</div>
+</div></div>
+
+<div class="b party" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">1–5pm</span><span class="bn">🚣 Xochimilco <span class="badge badge-g">✅ BOOKED</span></span><span class="be">▾</span></div>
+<div class="bb">
+<div class="main"><div class="vn">🎉 La Fête Sauvage — DJ boat, 4 hours, the highlight</div><div class="vm">Embarcadero Cuemanco · Matching shirts. Best memory of the trip.</div><a class="addr" href="https://maps.google.com/?q=Embarcadero+Cuemanco,+Xochimilco,+CDMX">Embarcadero Cuemanco</a></div>
+<div class="order">Drinks flow on the boat. Mariachis float up selling songs. Food boats pull alongside. Tip the mariachis 100-200 pesos for a song.</div>
+<div class="warn">Pace drinks. 4 hours on boats + a big night ahead.</div>
+<div class="rem"><strong>~5pm: ORDER 3 UBERS from Xochimilco.</strong> 40–50 min back. Home ~6pm.</div>
+</div></div>
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">6–8pm</span><span class="bn">🛏️ MANDATORY Reset</span><span class="be">▾</span></div>
+<div class="bb">
+<strong>Most important reset of the trip.</strong> Shower, nap, eat, HYDRATE.
+<div class="v"><div class="vn">🔍 Lardo — Italian comfort · 5 min</div></div>
+<div class="v"><div class="vn">🔍 Pasillo de Humo — Oaxacan moles + mezcal · 8 min</div></div>
+<div class="v"><div class="vn">Uber Eats — no shame. 0 min.</div></div>
+<div class="dress"><strong>Last night. Go hard on the fit.</strong> Dark jeans or trousers, your best shirt, clean shoes. This is the finale — don't look chopped. If you're hitting Departamento or Cometa, bouncers WILL judge you.</div>
+</div></div>
+
+<div class="b party" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">8:30pm</span><span class="bn">💥 Grand Finale Night</span><span class="be">▾</span></div>
+<div class="bb">
+<strong>Pre-game mezcal:</strong>
+<div class="v"><div class="vn">🔍 La Botica — 5 min, cheap, massive, lively sidewalk</div></div>
+<div class="divider"></div>
+<strong>9pm cocktails:</strong>
+<div class="main"><div class="vn">📋 Bijou — Rubik's Cube speakeasy</div><div class="vm">Colima 180 · dark, mysterious, incredible cocktails</div><a class="addr" href="https://maps.google.com/?q=Colima+180,+Roma+Norte,+CDMX">Colima 180</a></div>
+<div class="v"><div class="vn">📋 Supra rooftop — group photos + party after dark</div></div>
+<div class="v"><div class="vn">Citizen — 38th floor Sofitel, panoramic views</div></div>
+<div class="divider"></div>
+<strong>10:30pm — Last night. Pick one:</strong>
+<div class="v" style="border-color:var(--accent)"><div class="vn">📋 Departamento — rooftop + tacos + dancing</div></div>
+<div class="v" style="border-color:var(--accent)"><div class="vn">📋 Cometa Disco — best club, hidden entrance</div></div>
+<div class="v"><div class="vn">📋 Fünk · Bar Oriente · Japan CDMX</div></div>
+<div class="hot">2am LAST SUPPER: El Kalimán (5 min) · El Califa (8 min) · El Vilsito (10 min) · Los Amigos (24/7)</div>
+<div class="tip">3am — Home. Pack. Sleep. Flights. ✈️</div>
+</div></div>
+
+</div></div>
+
+<!-- ===== NIGHTLIFE ===== -->
+<div class="cs" id="nightlife">
+<div class="ch" onclick="toggleCat(this)"><h2>🌙 Nightlife Guide</h2><span class="ar">▾</span></div>
+<div class="cc">
+<div class="b party" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">🔥</span><span class="bn">Dance Hard</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">📋 Departamento — rooftop + taco stand · bouncers</div><a class="addr" href="https://maps.google.com/?q=Álvaro+Obregón+154,+Roma+Norte,+CDMX">Álvaro Obregón 154</a></div>
+<div class="v"><div class="vn">📋 Cometa Disco — hidden, best sound · bouncers</div></div>
+<div class="v"><div class="vn">📋 Fünk — Funktion-One sound · bouncers</div><a class="addr" href="https://maps.google.com/?q=Insurgentes+Sur+377,+Condesa,+CDMX">Insurgentes Sur 377</a></div>
+<div class="v"><div class="vn">📋 Japan CDMX — 3 floors · 8 min</div><a class="addr" href="https://maps.google.com/?q=Monterrey+56,+Roma+Norte,+CDMX">Monterrey 56</a></div>
+<div class="v"><div class="vn">📋 Bar Oriente — club+izakaya+karaoke, chill door</div><a class="addr" href="https://maps.google.com/?q=Durango+181,+Roma+Norte,+CDMX">Durango 181</a></div>
+<div class="v"><div class="vn">📋 Patrick Miller ⭐ FRI ONLY — Mérida 17, no dress code</div><a class="addr" href="https://maps.google.com/?q=Mérida+17,+Roma+Norte,+CDMX">Mérida 17</a></div>
+<div class="dress"><strong>Club door policy:</strong> Dark jeans, fitted shirt, clean shoes. Groups of guys can get scrutinized — look put together. No cargo shorts, no sandals, no gym fits. Departamento and Cometa are the strictest. Bar Oriente and Patrick Miller are the most chill.</div>
+</div></div>
+<div class="b drink" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">🍸</span><span class="bn">Cocktails · Rooftops · Mezcal</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">📋 Bijou — speakeasy, Colima 180</div></div>
+<div class="v"><div class="vn">📋 Limantour — 50 Best, Álvaro Obregón 106</div></div>
+<div class="v"><div class="vn">📋 Supra — 14th floor, 360°</div></div>
+<div class="v"><div class="vn">Citizen — 38th floor Sofitel</div></div>
+<div class="v"><div class="vn">🔍 Balmori · Palmares Azotea — Roma rooftops</div></div>
+<div class="divider"></div>
+<div class="v"><div class="vn">🔍 La Botica — cheap mezcal, 5 min</div></div>
+<div class="v"><div class="vn">📋 Tlecan — 50 Best, tomb vibes</div></div>
+<div class="v"><div class="vn">🔍 La Clandestina — candlelit, 40-50 mezcals</div></div>
+</div></div>
+</div></div>
+
+<!-- ===== TACOS ===== -->
+<div class="cs" id="tacos">
+<div class="ch" onclick="toggleCat(this)"><h2>🌮 All Tacos</h2><span class="ar">▾</span></div>
+<div class="cc">
+<div class="b food" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">☀️</span><span class="bn">Daytime</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">📋 El Hidalguense — Netflix barbacoa · 2 min (Fri-Sun)</div><a class="addr" href="https://maps.google.com/?q=Campeche+155,+Roma+Sur,+CDMX">Directions</a></div>
+<div class="v"><div class="vn">📋 Maizajo — Michelin, best tortillas</div></div>
+<div class="v"><div class="vn">📋 Orinoco — al pastor, orange salsa</div></div>
+<div class="v"><div class="vn">📋 Los Parados — Michelin, standing, charcoal</div></div>
+<div class="v"><div class="vn">🔍 Tacos Los Alexis — BIB GOURMAND 2025</div></div>
+<div class="v"><div class="vn">📋 El Califa de León — ONLY Michelin-starred taqueria on earth</div></div>
+</div></div>
+<div class="b food" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">🌙</span><span class="bn">Late Night (walkable)</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">🔍 El Kalimán ⭐ — 5 min, til 4am</div><a class="addr" href="https://maps.google.com/?q=Ensenada+74,+Condesa,+CDMX">5 min</a></div>
+<div class="v"><div class="vn">🔍 El Califa — rib-eye, til 4am · 8 min</div><a class="addr" href="https://maps.google.com/?q=Altata+22,+Condesa,+CDMX">Altata 22</a></div>
+<div class="v"><div class="vn">📋 El Vilsito — mechanic shop, 8pm-4am · 10 min</div><a class="addr" href="https://maps.google.com/?q=El+Vilsito,+Condesa,+CDMX">Directions</a></div>
+<div class="v"><div class="vn">📋 Los Amigos — 24/7 · 8 min</div><a class="addr" href="https://maps.google.com/?q=Monterrey+353,+Roma+Sur,+CDMX">Monterrey 353</a></div>
+<div class="v"><div class="vn">📋 Departamento — taco stand ON the dance floor</div></div>
+</div></div>
+</div></div>
+
+<!-- ===== CAFES ===== -->
+<div class="cs" id="cafes">
+<div class="ch" onclick="toggleCat(this)"><h2>☕ Cafés & Bakeries</h2><span class="ar">▾</span></div>
+<div class="cc">
+<div class="b coffee open"><div class="bb" style="display:block;padding:10px 14px 14px">
+<strong>Matcha / Brunch</strong>
+<div class="v"><div class="vn">📋 Café Nin — Havre 73, matcha + pastries</div><a class="addr" href="https://maps.google.com/?q=Café+Nin,+Havre+73,+Juárez,+CDMX">Directions</a></div>
+<div class="v"><div class="vn">🔍 Chiquitito — Condesa, matcha, dogs</div></div>
+<div class="v"><div class="vn">🔍 Ojo de Agua — smoothies, healthy brunch</div></div>
+<div class="divider"></div>
+<strong>Best Pastries</strong>
+<div class="v"><div class="vn">🔍 Panadería Rosetta ⭐ — Colima 179, guava roll</div><a class="addr" href="https://maps.google.com/?q=Colima+179,+Roma+Norte,+CDMX">Colima 179</a></div>
+<div class="v"><div class="vn">📋 Odette — kouign amann</div></div>
+<div class="v"><div class="vn">🔍 SAINT — pain au chocolat</div></div>
+<div class="v"><div class="vn">🔍 Churrería El Moro — churros since 1935</div></div>
+<div class="v"><div class="vn">🔍 Casa 1900 — "library of pastries"</div></div>
+<div class="divider"></div>
+<strong>Specialty Coffee</strong>
+<div class="v"><div class="vn">🔍 Quentin — 4 locations, espressonic</div><a class="addr" href="https://maps.google.com/?q=Quentin+Café,+Amsterdam+67a,+Condesa,+CDMX">Amsterdam 67a</a></div>
+<div class="v"><div class="vn">🔍 Blend Station — tree inside · Tamaulipas 39</div><a class="addr" href="https://maps.google.com/?q=Blend+Station,+Tamaulipas+39,+Condesa,+CDMX">Tamaulipas 39</a></div>
+<div class="v"><div class="vn">🔍 Forte — cortado, wood-fired brunch</div></div>
+<div class="v"><div class="vn">🔍 Buna — sustainability, chocolate</div></div>
+<div class="v"><div class="vn">🔍 Boicot — Veracruz beans, braided bread</div></div>
+<div class="v"><div class="vn">🔍 Hule — vinyl + coffee</div></div>
+<div class="v"><div class="vn">🔍 Raku — Japanese coffee</div></div>
+<div class="v"><div class="vn">🔍 El Péndulo — bookstore + rooftop</div><a class="addr" href="https://maps.google.com/?q=El+Péndulo,+Álvaro+Obregón+86,+Roma+Norte,+CDMX">Álvaro Obregón 86</a></div>
+</div></div>
+</div></div>
+
+<!-- ===== POIs ===== -->
+<div class="cs" id="pois">
+<div class="ch" onclick="toggleCat(this)"><h2>👀 Points of Interest</h2><span class="ar">▾</span></div>
+<div class="cc">
+<div class="b" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">🌳</span><span class="bn">Parks & Streets</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">Parque México — 2 blocks, 9 acres, amphitheater</div><a class="addr" href="https://maps.google.com/?q=Parque+México,+Condesa,+CDMX">Directions</a></div>
+<div class="v"><div class="vn">Avenida Amsterdam — oval loop, Art Deco mansions</div></div>
+<div class="v"><div class="vn">Parque España — quieter, famous dog run</div></div>
+<div class="v"><div class="vn">Álvaro Obregón — Roma's main artery</div></div>
+<div class="v"><div class="vn">Calle Colima — prettiest street, galleries</div></div>
+</div></div>
+<div class="b" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">🏛️</span><span class="bn">Architecture</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">Plaza Río de Janeiro — David + Witch's House</div><a class="addr" href="https://maps.google.com/?q=Plaza+Río+de+Janeiro,+Roma+Norte,+CDMX">Directions</a></div>
+<div class="v"><div class="vn">Edificio Basurto — Av. México 187, Art Deco</div><a class="addr" href="https://maps.google.com/?q=Av+México+187,+Condesa,+CDMX">Directions</a></div>
+<div class="v"><div class="vn">Fuente de Cibeles — Madrid fountain replica</div><a class="addr" href="https://maps.google.com/?q=Fuente+de+Cibeles,+Roma,+CDMX">Directions</a></div>
+<div class="v"><div class="vn">Chapultepec Castle — 30 min walk, ~95 pesos</div><a class="addr" href="https://maps.google.com/?q=Chapultepec+Castle,+CDMX">Directions</a></div>
+</div></div>
+<div class="b" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">🎨</span><span class="bn">Galleries & Culture</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">House of Gaga — avant-garde, 1930s mansion, free</div></div>
+<div class="v"><div class="vn">OMR Gallery — contemporary since 1980s, free</div></div>
+<div class="v"><div class="vn">Casa Basalta / MAIA — spiral staircase, free</div></div>
+<div class="v"><div class="vn">MODO Museum — quirky design, 50 pesos</div></div>
+<div class="v"><div class="vn">La Romita — street art hotspot, free</div></div>
+</div></div>
+<div class="b" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">🛍️</span><span class="bn">Markets & Shops</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">Mercado Roma — food hall + rooftop beer</div><a class="addr" href="https://maps.google.com/?q=Querétaro+225,+Roma+Norte,+CDMX">Querétaro 225</a></div>
+<div class="v"><div class="vn">Comedor de los Milagros — food court, live music Fri-Sat</div></div>
+<div class="v"><div class="vn">La Roma Records — vinyl</div></div>
+<div class="v"><div class="vn">Someone Somewhere — artisan fashion</div></div>
+</div></div>
+</div></div>
+
+<!-- ===== RULES ===== -->
+<div class="cs" id="rules">
+<div class="ch" onclick="toggleCat(this)"><h2>⚠️ Rules & Logistics</h2><span class="ar">▾</span></div>
+<div class="cc">
+<div class="b open"><div class="bb" style="display:block;padding:10px 14px 14px">
+<div class="rule">🚗 <strong>Uber door-to-door</strong> for Centro, Arena, and past midnight outside Roma/Condesa.</div>
+<div class="rule">🚗 <strong>Rule of 9:</strong> 3 Ubers or 2 UberXL every time. Budget +10 min for XL wait times.</div>
+<div class="rule">🚫 <strong>No strip clubs.</strong> Drugging/robbery reports are real.</div>
+<div class="rule">⛔ <strong>Avoid:</strong> Tepito, Doctores (except Arena), La Merced at night.</div>
+<div class="rule">💵 <strong>Cash:</strong> 3,000-4,000 MXN from airport ATM. Cards at restaurants. Cash for tacos, tips, lucha masks, street food.</div>
+<div class="rule">👥 <strong>Split 5/4.</strong> Never smaller groups. Sober navigator per group.</div>
+<div class="rule">💧 <strong>Water:</strong> Bottled only. Restaurant ice fine. Street vendor ice — skip.</div>
+<div class="rule">📱 <strong>Phones:</strong> Front pockets always. Don't flash at night.</div>
+<div class="rule">🧴 <strong>Sunscreen:</strong> 7,300 ft elevation = stronger UV. You'll burn without it.</div>
+<div class="rule">🧥 <strong>Layer up at night:</strong> Temps drop to ~50°F after dark. Bring a jacket.</div>
+<div class="divider"></div>
+<strong>Travel Times from Airbnb:</strong>
+<div class="v"><div class="vn">Roma Norte — 10 min walk ✅</div></div>
+<div class="v"><div class="vn">Juárez / Handshake — 15 min walk / 5 min Uber</div></div>
+<div class="v"><div class="vn">Arena México — 15 min Uber · door-to-door ONLY</div></div>
+<div class="v"><div class="vn">Jardín Juárez — 15 min Uber · 2 min walk to Arena</div></div>
+<div class="v"><div class="vn">Centro Histórico — 20-25 min Uber</div></div>
+<div class="v"><div class="vn">Xochimilco — 40-50 min Uber · worse on Saturday</div></div>
+<div class="divider"></div>
+<strong>Home base:</strong>
+<a class="addr" href="https://maps.google.com/?q=Campeche+415,+Hipódromo+Condesa,+CDMX">Campeche 415, Hipódromo Condesa</a>
+</div></div>
+</div></div>
+
+<script>
+function toggleDay(el){el.closest('.ds').classList.toggle('open')}
+function toggleCat(el){el.closest('.cs').classList.toggle('open')}
+function toggleBlock(el){el.classList.toggle('open')}
+function toggleAlts(el){el.nextElementSibling.classList.toggle('open')}
+function go(e,id){
+  e.preventDefault();
+  document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+}
+function toggleTheme(){
+  const html=document.documentElement;
+  const btn=document.getElementById('themeBtn');
+  if(html.getAttribute('data-theme')==='dark'){
+    html.setAttribute('data-theme','light');
+    btn.textContent='☀️';
+    localStorage.setItem('theme','light');
+  }else{
+    html.setAttribute('data-theme','dark');
+    btn.textContent='🌙';
+    localStorage.setItem('theme','dark');
+  }
+}
+(function(){
+  const s=localStorage.getItem('theme');
+  if(s){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='light'?'☀️':'🌙';}
+})();
+document.getElementById('wed').classList.add('open');
+</script>
+</body>
+</html>
