@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icon.png">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="icon.png">
 <link rel="icon" type="image/png" href="icon.png">
 <title>CDMX Bach Party</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,6 +54,8 @@ body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:v
 .fab:active{transform:scale(.9)}
 .theme-toggle{bottom:16px;right:16px}
 .share-btn{bottom:16px;right:72px}
+.now-btn{bottom:72px;right:16px;font-size:14px;font-weight:700;letter-spacing:-.5px}
+.now-btn.hidden{display:none}
 .share-toast{position:fixed;bottom:76px;right:16px;z-index:201;background:var(--green);color:#fff;font-size:13px;font-weight:600;padding:8px 14px;border-radius:10px;opacity:0;transition:opacity .3s;pointer-events:none}
 .share-toast.show{opacity:1}
 
@@ -76,6 +79,7 @@ body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:v
 .dh .tl{font-size:12px;color:var(--text2);margin-top:2px;font-family:'DM Sans',sans-serif;font-weight:400}
 .dh .ar,.ch .ar{font-size:20px;color:var(--text2);transition:transform .2s;flex-shrink:0;margin-left:12px}
 .ds.open .dh .ar,.cs.open .ch .ar{transform:rotate(180deg)}
+.ds.open .dh{position:sticky;top:40px;z-index:50;border-radius:14px 14px 0 0}
 .dc{display:none;padding:8px 0 4px}
 .ds.open .dc{display:block}
 .expand-all{display:none;text-align:right;padding:4px 0 2px}
@@ -176,11 +180,12 @@ html{scroll-behavior:smooth}
 </nav>
 <div class="fab share-btn" onclick="shareLink()" id="shareBtn">🔗</div>
 <div class="share-toast" id="shareToast">Link copied!</div>
+<div class="fab now-btn hidden" onclick="goNow()" id="nowBtn">NOW</div>
 <div class="fab theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
 <div class="hero" id="hero">
 <h1>🇲🇽 CDMX Bachelor Party</h1>
 <div class="sub">March 4–7, 2026 · 9 guys · Condesa</div>
-<div class="legend">📋 Nelson · 🔍 Research</div>
+<div class="legend">📋 Nelson</div>
 </div>
 <div class="res-bar">
 <div class="chip g">✅ Fonda Fina · Wed 7:30p</div>
@@ -200,11 +205,7 @@ html{scroll-behavior:smooth}
 <div class="b chill" onclick="toggleBlock(this)">
 <div class="bh"><span class="bt">📱</span><span class="bn">Download Before You Go</span><span class="be">▾</span></div>
 <div class="bb">
-<div class="check"><strong>Uber</strong> — your lifeline. Add a card for MXN payments</div>
-<div class="check"><strong>DiDi</strong> — Uber alternative, sometimes cheaper/faster</div>
 <div class="check"><strong>Ecobici</strong> — bike share. Day pass ~$3 USD</div>
-<div class="check"><strong>WhatsApp</strong> — how CDMX communicates. Group chat here</div>
-<div class="check"><strong>Google Translate</strong> — download Spanish offline pack</div>
 <div class="check"><strong>Google Maps</strong> — download CDMX offline map</div>
 <div class="tip">Your US phone plan probably works in Mexico (T-Mobile, AT&T, Verizon include it). Check before you leave. If not, buy a Telcel SIM at the airport for ~$15 USD.</div>
 </div></div>
@@ -212,17 +213,15 @@ html{scroll-behavior:smooth}
 <div class="b chill" onclick="toggleBlock(this)">
 <div class="bh"><span class="bt">🧳</span><span class="bn">Packing List</span><span class="be">▾</span></div>
 <div class="bb">
-<strong>Wear on the plane:</strong>
-<div class="check">Jeans or chinos + sneakers + layer</div>
-<div class="divider"></div>
-<strong>Clothes (4 nights):</strong>
-<div class="check">2 going-out shirts (button-up or nice polo — no graphic tees at night)</div>
-<div class="check">1 pair dark jeans or trousers for nights out</div>
-<div class="check">2-3 day shorts/pants</div>
+<strong>Daytime clothes:</strong>
+<div class="check">Shorts, t-shirts, sneakers — whatever's comfortable</div>
 <div class="check">Comfortable walking shoes (you'll avg 15k steps/day)</div>
-<div class="check">1 nice pair of shoes for dinners/clubs (clean sneakers fine, no flip flops)</div>
 <div class="check">Light jacket — CDMX is 7,300 ft elevation, nights drop to ~50°F</div>
-<div class="check">🎽 <strong>MATCHING SHIRTS for Xochimilco Saturday</strong> — don't forget</div>
+<div class="divider"></div>
+<strong>Going out clothes:</strong>
+<div class="check">2 good shirts (button-up or fitted polo — save the graphic tees for daytime)</div>
+<div class="check">Dark jeans or trousers</div>
+<div class="check">Clean shoes (nice sneakers or loafers — no flip flops)</div>
 <div class="divider"></div>
 <strong>Essentials:</strong>
 <div class="check">Sunscreen — altitude = stronger UV, you WILL burn</div>
@@ -232,11 +231,9 @@ html{scroll-behavior:smooth}
 <div class="check">Debit card with no foreign transaction fee (Schwab, etc.)</div>
 <div class="check">Passport (obviously)</div>
 <div class="check">Imodium / Pepto — just in case. Street food is worth it.</div>
-<div class="check">Small day bag or crossbody — phone in FRONT pocket at all times</div>
 <div class="divider"></div>
 <strong>Group gear (Nelson coordinating):</strong>
-<div class="check">Bluetooth speaker for Xochimilco</div>
-<div class="check">Matching shirts</div>
+<div class="check">Bluetooth speaker</div>
 <div class="warn">CDMX is NOT Cancún. People dress well here. Think Brooklyn/Silver Lake vibes, not spring break. Shorts are fine during the day but <strong>don't look chopped at night.</strong></div>
 </div></div>
 
@@ -283,7 +280,6 @@ html{scroll-behavior:smooth}
 <div class="v"><div class="vn">Nelson + Travis — 5:30pm</div></div>
 <div class="v"><div class="vn">George + Vincent — 5:10pm <strong>THURSDAY</strong></div></div>
 <div class="tip">Everyone regroups at Airbnb by ~6pm Wednesday</div>
-<div class="cafe-c"><strong>Brandon's solo lunch zone:</strong> Lardo (5 min), Ojo de Agua (8 min), Chiquitito for matcha near the Airbnb</div>
 </div></div>
 
 <div class="b chill" onclick="toggleBlock(this)">
@@ -337,7 +333,7 @@ Drop bags, quick change. 15-min walk through Parque México (2 blocks).
 
 <!-- ===== THURSDAY ===== -->
 <div class="ds" id="thu">
-<div class="dh" onclick="toggleDay(this)"><div><h2>🚲 Thu, Mar 5</h2><div class="tl">Bike → Contramar → Beer → Páramo → Dancing</div></div><span class="ar">▾</span></div>
+<div class="dh" onclick="toggleDay(this)"><div><h2>🚲 Thu, Mar 5</h2><div class="tl">Bike → Contramar → Beer → Páramo → Going Out</div></div><span class="ar">▾</span></div>
 <div class="dc">
 <div class="expand-all"><button onclick="event.stopPropagation();toggleAll(this)">Expand All</button></div>
 
@@ -416,12 +412,12 @@ Shower, nap, charge phones.
 </div></div>
 
 <div class="b party" onclick="toggleBlock(this)">
-<div class="bh"><span class="bt">9:30pm</span><span class="bn">🌃 Rooftop → Dancing</span><span class="be">▾</span></div>
+<div class="bh"><span class="bt">9:30pm</span><span class="bn">🌃 Rooftop → Going Out</span><span class="be">▾</span></div>
 <div class="bb">
 <div class="main"><div class="vn">📋 Salón Palomilla — hidden rooftop ABOVE Páramo</div><div class="vm">Walk upstairs after dinner. Easy transition.</div></div>
 <div class="v"><div class="vn">📋 Supra — 14th floor, 360° views, DJ · 5 min walk</div><a class="addr" href="https://maps.google.com/?q=Álvaro+Obregón+151,+Roma+Norte,+CDMX">Álvaro Obregón 151</a></div>
 <div class="divider"></div>
-<strong>11pm — Dancing:</strong>
+<strong>11pm — Going Out:</strong>
 <div class="v"><div class="vn">📋 Departamento ⭐ — rooftop + TACO STAND on dance floor · walk from rooftop</div><a class="addr" href="https://maps.google.com/?q=Álvaro+Obregón+154,+Roma+Norte,+CDMX">Álvaro Obregón 154</a></div>
 <div class="v"><div class="vn">📋 Cometa Disco — hidden entrance, world-class sound</div></div>
 <div class="v"><div class="vn">📋 Bar Oriente — Durango 181, club+izakaya+karaoke, 3 floors</div></div>
@@ -618,7 +614,7 @@ Shower, nap, charge phones.
 <div class="ch" onclick="toggleCat(this)"><h2>🌙 Nightlife Guide</h2><span class="ar">▾</span></div>
 <div class="cc">
 <div class="b party" onclick="toggleBlock(this)">
-<div class="bh"><span class="bt">🔥</span><span class="bn">Dance Hard</span><span class="be">▾</span></div>
+<div class="bh"><span class="bt">🔥</span><span class="bn">Party Hard</span><span class="be">▾</span></div>
 <div class="bb">
 <div class="v"><div class="vn">📋 Departamento — rooftop + taco stand · bouncers</div><a class="addr" href="https://maps.google.com/?q=Álvaro+Obregón+154,+Roma+Norte,+CDMX">Álvaro Obregón 154</a></div>
 <div class="v"><div class="vn">📋 Cometa Disco — hidden, best sound · bouncers</div></div>
@@ -742,6 +738,9 @@ Shower, nap, charge phones.
 <div class="ch" onclick="toggleCat(this)"><h2>⚠️ Rules & Logistics</h2><span class="ar">▾</span></div>
 <div class="cc">
 <div class="b open"><div class="bb" style="display:block;padding:10px 14px 14px">
+<strong>Home base:</strong>
+<a class="addr" href="https://maps.google.com/?q=Campeche+415,+Hipódromo+Condesa,+CDMX">Campeche 415, Hipódromo Condesa</a>
+<div class="divider"></div>
 <div class="rule">🚗 <strong>Uber door-to-door</strong> for Centro, Arena, and past midnight outside Roma/Condesa.</div>
 <div class="rule">🚗 <strong>Rule of 9:</strong> 3 Ubers or 2 UberXL every time. Budget +10 min for XL wait times.</div>
 <div class="rule">🚫 <strong>No strip clubs.</strong> Drugging/robbery reports are real.</div>
@@ -760,9 +759,6 @@ Shower, nap, charge phones.
 <div class="v"><div class="vn">Jardín Juárez — 15 min Uber · 2 min walk to Arena</div></div>
 <div class="v"><div class="vn">Centro Histórico — 20-25 min Uber</div></div>
 <div class="v"><div class="vn">Xochimilco — 40-50 min Uber · worse on Saturday</div></div>
-<div class="divider"></div>
-<strong>Home base:</strong>
-<a class="addr" href="https://maps.google.com/?q=Campeche+415,+Hipódromo+Condesa,+CDMX">Campeche 415, Hipódromo Condesa</a>
 </div></div>
 </div></div>
 
@@ -872,6 +868,58 @@ function shareLink(){
     });
   },{threshold:[0,0.1,0.5],rootMargin:'-50px 0px -60% 0px'});
   sectionEls.forEach(s=>ob.observe(s));
+})();
+
+// "Now" indicator — scroll to current time block during the trip
+function goNow(){
+  const cdmx=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Mexico_City'}));
+  const day=cdmx.getDate(), hr=cdmx.getHours(), mn=cdmx.getMinutes();
+  const dayMap={4:'wed',5:'thu',6:'fri',7:'sat',8:'sun'};
+  const dayId=dayMap[day];
+  if(!dayId) return;
+  const section=document.getElementById(dayId);
+  if(!section) return;
+  if(!section.classList.contains('open')) section.classList.add('open');
+  // find closest time block by matching hour
+  const blocks=section.querySelectorAll('.b');
+  let best=null, bestDiff=Infinity;
+  blocks.forEach(b=>{
+    const bt=b.querySelector('.bt');
+    if(!bt) return;
+    const t=bt.textContent.trim();
+    // parse times like "9:30am", "1:30pm", "~12pm", "6:15pm", "4–6:30p"
+    const m=t.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm|a|p)/i);
+    if(!m) return;
+    let h=parseInt(m[1]), mi=parseInt(m[2]||'0');
+    if(/p/i.test(m[3])&&h!==12) h+=12;
+    if(/a/i.test(m[3])&&h===12) h=0;
+    const blockMin=h*60+mi, nowMin=hr*60+mn;
+    const diff=Math.abs(blockMin-nowMin);
+    if(diff<bestDiff){bestDiff=diff;best=b;}
+  });
+  if(best){
+    if(!best.classList.contains('open')) best.classList.add('open');
+    best.scrollIntoView({behavior:'smooth',block:'center'});
+    best.style.boxShadow='0 0 0 2px var(--accent)';
+    setTimeout(()=>best.style.boxShadow='',3000);
+  }else{
+    section.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
+// Show/hide Now button based on trip dates
+(function(){
+  function checkNow(){
+    const cdmx=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Mexico_City'}));
+    const btn=document.getElementById('nowBtn');
+    if(cdmx.getFullYear()===2026 && cdmx.getMonth()===2 && cdmx.getDate()>=4 && cdmx.getDate()<=8){
+      btn.classList.remove('hidden');
+    }else{
+      btn.classList.add('hidden');
+    }
+  }
+  checkNow();
+  setInterval(checkNow,60000);
 })();
 
 // Service worker registration
