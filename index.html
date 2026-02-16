@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" type="image/png" href="icon.png">
 <title>CDMX Bach Party</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
@@ -47,8 +49,12 @@ body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:v
 .nav a.active,.nav a:active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
 /* THEME TOGGLE */
-.theme-toggle{position:fixed;bottom:16px;right:16px;z-index:200;width:48px;height:48px;border-radius:50%;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);transition:all .2s}
-.theme-toggle:active{transform:scale(.9)}
+.fab{position:fixed;z-index:200;width:48px;height:48px;border-radius:50%;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);transition:all .2s}
+.fab:active{transform:scale(.9)}
+.theme-toggle{bottom:16px;right:16px}
+.share-btn{bottom:16px;right:72px}
+.share-toast{position:fixed;bottom:76px;right:16px;z-index:201;background:var(--green);color:#fff;font-size:13px;font-weight:600;padding:8px 14px;border-radius:10px;opacity:0;transition:opacity .3s;pointer-events:none}
+.share-toast.show{opacity:1}
 
 /* HERO */
 .hero{padding:20px 16px 12px;text-align:center}
@@ -72,6 +78,9 @@ body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:v
 .ds.open .dh .ar,.cs.open .ch .ar{transform:rotate(180deg)}
 .dc{display:none;padding:8px 0 4px}
 .ds.open .dc{display:block}
+.expand-all{display:none;text-align:right;padding:4px 0 2px}
+.ds.open .expand-all{display:block}
+.expand-all button{background:var(--surface2);border:1px solid var(--border);color:var(--text2);font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:pointer;font-family:inherit}
 
 /* TIME BLOCKS - now with category colors */
 .b{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;border-left:4px solid var(--border)}
@@ -158,23 +167,26 @@ html{scroll-behavior:smooth}
 <a href="#" onclick="go(event,'thu')">Thu</a>
 <a href="#" onclick="go(event,'fri')">Fri</a>
 <a href="#" onclick="go(event,'sat')">Sat</a>
+<a href="#" onclick="go(event,'sun')">Sun</a>
 <a href="#" onclick="go(event,'nightlife')">🌙</a>
 <a href="#" onclick="go(event,'tacos')">🌮</a>
 <a href="#" onclick="go(event,'cafes')">☕</a>
 <a href="#" onclick="go(event,'pois')">👀</a>
 <a href="#" onclick="go(event,'rules')">⚠️</a>
 </nav>
-<div class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
+<div class="fab share-btn" onclick="shareLink()" id="shareBtn">🔗</div>
+<div class="share-toast" id="shareToast">Link copied!</div>
+<div class="fab theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</div>
 <div class="hero" id="hero">
 <h1>🇲🇽 CDMX Bachelor Party</h1>
 <div class="sub">March 4–7, 2026 · 9 guys · Condesa</div>
-<div class="legend">📋 Nelson finds · 🔍 Claude finds</div>
+<div class="legend">📋 Nelson · 🔍 Research</div>
 </div>
 <div class="res-bar">
 <div class="chip g">✅ Fonda Fina · Wed 7:30p</div>
 <div class="chip y">🟡 Handshake · Wed ~9:45p</div>
 <div class="chip g">✅ Contramar · Thu 1:30p</div>
-<div class="chip g">✅ Páramo · Thu 7:30p</div>
+<div class="chip g">✅ Páramo · Thu 7:30p · 9</div>
 <div class="chip g">✅ Lucha · Fri 8p</div>
 <div class="chip g">✅ La Fête · Sat 1-5p</div>
 </div>
@@ -183,6 +195,7 @@ html{scroll-behavior:smooth}
 <div class="ds" id="pre">
 <div class="dh" onclick="toggleDay(this)"><div><h2>✈️ Before You Land</h2><div class="tl">Packing · Airport · First moves</div></div><span class="ar">▾</span></div>
 <div class="dc">
+<div class="expand-all"><button onclick="event.stopPropagation();toggleAll(this)">Expand All</button></div>
 
 <div class="b chill" onclick="toggleBlock(this)">
 <div class="bh"><span class="bt">📱</span><span class="bn">Download Before You Go</span><span class="be">▾</span></div>
@@ -259,6 +272,7 @@ html{scroll-behavior:smooth}
 <div class="ds" id="wed">
 <div class="dh" onclick="toggleDay(this)"><div><h2>🛬 Wed, Mar 4</h2><div class="tl">Soft landing → Fonda Fina → Handshake</div></div><span class="ar">▾</span></div>
 <div class="dc">
+<div class="expand-all"><button onclick="event.stopPropagation();toggleAll(this)">Expand All</button></div>
 
 <div class="b chill" onclick="toggleBlock(this)">
 <div class="bh"><span class="bt">ARRIVE</span><span class="bn">Flight Schedule</span><span class="be">▾</span></div>
@@ -325,6 +339,9 @@ Drop bags, quick change. 15-min walk through Parque México (2 blocks).
 <div class="ds" id="thu">
 <div class="dh" onclick="toggleDay(this)"><div><h2>🚲 Thu, Mar 5</h2><div class="tl">Bike → Contramar → Beer → Páramo → Dancing</div></div><span class="ar">▾</span></div>
 <div class="dc">
+<div class="expand-all"><button onclick="event.stopPropagation();toggleAll(this)">Expand All</button></div>
+
+<div class="tip" style="margin:0 0 8px">🛬 <strong>George + Vincent land 5:10pm today.</strong> They join for Páramo dinner — first full squad meal. Morning/afternoon is 7 guys.</div>
 
 <div class="b coffee" onclick="toggleBlock(this)">
 <div class="bh"><span class="bt">9:30am</span><span class="bn">☕ Coffee + Pastries</span><span class="be">▾</span></div>
@@ -417,6 +434,7 @@ Shower, nap, charge phones.
 <div class="ds" id="fri">
 <div class="dh" onclick="toggleDay(this)"><div><h2>🤼 Fri, Mar 6</h2><div class="tl">Taco crawl → Centro or chill → Lucha Libre → Night out</div></div><span class="ar">▾</span></div>
 <div class="dc">
+<div class="expand-all"><button onclick="event.stopPropagation();toggleAll(this)">Expand All</button></div>
 
 <div class="b coffee" onclick="toggleBlock(this)">
 <div class="bh"><span class="bt">9:30am</span><span class="bn">☕ Coffee</span><span class="be">▾</span></div>
@@ -503,6 +521,7 @@ Shower, nap, charge phones.
 <div class="ds" id="sat">
 <div class="dh" onclick="toggleDay(this)"><div><h2>🎉 Sat, Mar 7</h2><div class="tl">Brunch → Xochimilco → Reset → Grand finale</div></div><span class="ar">▾</span></div>
 <div class="dc">
+<div class="expand-all"><button onclick="event.stopPropagation();toggleAll(this)">Expand All</button></div>
 
 <div class="b food" onclick="toggleBlock(this)">
 <div class="bh"><span class="bt">10:00am</span><span class="bn">🥞 Brunch</span><span class="be">▾</span></div>
@@ -562,6 +581,34 @@ Shower, nap, charge phones.
 <div class="v"><div class="vn">📋 Fünk · Bar Oriente · Japan CDMX</div></div>
 <div class="hot">2am LAST SUPPER: El Kalimán (5 min) · El Califa (8 min) · El Vilsito (10 min) · Los Amigos (24/7)</div>
 <div class="tip">3am — Home. Pack. Sleep. Flights. ✈️</div>
+</div></div>
+
+</div></div>
+
+<!-- ===== SUNDAY ===== -->
+<div class="ds" id="sun">
+<div class="dh" onclick="toggleDay(this)"><div><h2>✈️ Sun, Mar 8</h2><div class="tl">Coffee → Airport → Home</div></div><span class="ar">▾</span></div>
+<div class="dc">
+<div class="expand-all"><button onclick="event.stopPropagation();toggleAll(this)">Expand All</button></div>
+
+<div class="b coffee" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">AM</span><span class="bn">☕ Last Coffee</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="v"><div class="vn">Chiquitito — 3 min walk, matcha, easy</div></div>
+<div class="v"><div class="vn">Ojo de Agua — smoothies, healthy, hangover helper</div></div>
+<div class="v"><div class="vn">Quentin — Amsterdam 67a, solid espresso</div></div>
+<div class="tip">Pack before coffee. Leave bags at the Airbnb and walk over.</div>
+</div></div>
+
+<div class="b chill" onclick="toggleBlock(this)">
+<div class="bh"><span class="bt">DEPART</span><span class="bn">Airport Checklist</span><span class="be">▾</span></div>
+<div class="bb">
+<div class="check">Sweep the Airbnb — chargers, bathroom, under beds</div>
+<div class="check">Spend remaining pesos at the airport (snacks, duty free)</div>
+<div class="check">Uber to MEX: ~25 min from Condesa. Add 15 min buffer for Sunday traffic.</div>
+<div class="check">Be at airport <strong>3 hours before international flights</strong></div>
+<div class="rem"><strong>Order Ubers based on flight times.</strong> Stagger if flights are spread out — don't all try to leave at once.</div>
+<div class="warn">Don't bring back more than 1L of mezcal/tequila per person (US customs limit). They will confiscate extras.</div>
 </div></div>
 
 </div></div>
@@ -724,12 +771,22 @@ function toggleDay(el){el.closest('.ds').classList.toggle('open')}
 function toggleCat(el){el.closest('.cs').classList.toggle('open')}
 function toggleBlock(el){el.classList.toggle('open')}
 function toggleAlts(el){el.nextElementSibling.classList.toggle('open')}
+
+function toggleAll(btn){
+  const dc=btn.closest('.dc');
+  const blocks=dc.querySelectorAll('.b');
+  const allOpen=[...blocks].every(b=>b.classList.contains('open'));
+  blocks.forEach(b=>{allOpen?b.classList.remove('open'):b.classList.add('open')});
+  btn.textContent=allOpen?'Expand All':'Collapse All';
+}
+
 function go(e,id){
   e.preventDefault();
   document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));
   e.target.classList.add('active');
   document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
 }
+
 function toggleTheme(){
   const html=document.documentElement;
   const btn=document.getElementById('themeBtn');
@@ -743,11 +800,84 @@ function toggleTheme(){
     localStorage.setItem('theme','dark');
   }
 }
+
+function shareLink(){
+  const url=window.location.href;
+  if(navigator.share){
+    navigator.share({title:'CDMX Bach Party',url:url});
+  }else{
+    navigator.clipboard.writeText(url).then(()=>{
+      const t=document.getElementById('shareToast');
+      t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'),2000);
+    });
+  }
+}
+
+// Theme persistence
 (function(){
   const s=localStorage.getItem('theme');
   if(s){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='light'?'☀️':'🌙';}
 })();
-document.getElementById('wed').classList.add('open');
+
+// Auto-open today's day section
+(function(){
+  const dayMap={4:'wed',5:'thu',6:'fri',7:'sat',8:'sun'};
+  const now=new Date();
+  // Trip is March 2026 — detect day of month if in March 2026
+  let openId='wed'; // default
+  if(now.getFullYear()===2026 && now.getMonth()===2){
+    const d=now.getDate();
+    if(dayMap[d]) openId=dayMap[d];
+  }
+  const el=document.getElementById(openId);
+  if(el) el.classList.add('open');
+})();
+
+// IntersectionObserver — highlight active nav tab on scroll
+(function(){
+  const ids=['hero','pre','wed','thu','fri','sat','sun','nightlife','tacos','cafes','pois','rules'];
+  const nav=document.getElementById('nav');
+  const links=[...nav.querySelectorAll('a')];
+  const sectionEls=ids.map(id=>document.getElementById(id)).filter(Boolean);
+  let ticking=false;
+  const ob=new IntersectionObserver((entries)=>{
+    if(ticking) return;
+    ticking=true;
+    requestAnimationFrame(()=>{
+      // find topmost visible section
+      let best=null, bestTop=Infinity;
+      sectionEls.forEach(s=>{
+        const r=s.getBoundingClientRect();
+        if(r.top<150 && r.bottom>50){
+          if(r.top<bestTop){bestTop=r.top;best=s.id;}
+        }
+      });
+      if(!best){
+        // fallback: closest to top
+        sectionEls.forEach(s=>{
+          const r=s.getBoundingClientRect();
+          const d=Math.abs(r.top);
+          if(d<bestTop){bestTop=d;best=s.id;}
+        });
+      }
+      if(best){
+        const idx=ids.indexOf(best);
+        links.forEach((a,i)=>a.classList.toggle('active',i===idx));
+        // scroll nav to show active tab
+        const activeLink=links[idx];
+        if(activeLink) activeLink.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+      }
+      ticking=false;
+    });
+  },{threshold:[0,0.1,0.5],rootMargin:'-50px 0px -60% 0px'});
+  sectionEls.forEach(s=>ob.observe(s));
+})();
+
+// Service worker registration
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
 </script>
 </body>
 </html>
