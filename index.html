@@ -189,7 +189,7 @@ html{scroll-behavior:smooth}
 <div class="hero" id="hero">
 <h1 id="titleTap">🦸 <span class="grad">Matty's Mexico Madness</span> 🇲🇽</h1>
 <div class="sub">March 4–7, 2026 · 9 guys · Condesa</div>
-<div class="legend">📋 Nelson</div>
+<div class="legend" id="nelsonTap">last updated feb 16</div>
 <a class="addr" href="https://maps.google.com/?q=Campeche+415,+Hipódromo+Condesa,+CDMX" style="font-size:12px;display:block;margin-top:4px">🏠 Campeche 415, Hipódromo Condesa</a>
 </div>
 <div class="res-bar">
@@ -814,6 +814,41 @@ Shower, nap, charge phones.
 </div></div>
 </div></div>
 
+<!-- ===== SPANISH (hidden, 5-tap Nelson) ===== -->
+<div class="cs" id="spanish" style="display:none">
+<div class="ch" onclick="toggleCat(this)"><h2>🇲🇽 Spanish Cheat Sheet</h2><span class="ar">▾</span></div>
+<div class="cc">
+<div class="b open"><div class="bb" style="display:block;padding:10px 14px 14px">
+<strong>Basics</strong>
+<div class="rule">👋 <strong>¿Qué onda?</strong> — What's up? (casual greeting)</div>
+<div class="rule">🙏 <strong>Por favor / Gracias</strong> — Please / Thank you</div>
+<div class="rule">👍 <strong>Todo bien</strong> — All good</div>
+<div class="rule">🤝 <strong>Con permiso</strong> — Excuse me (passing through)</div>
+<div class="rule">🚫 <strong>No, gracias</strong> — No thank you (street vendors)</div>
+<div class="divider"></div>
+<strong>Ordering</strong>
+<div class="rule">🌮 <strong>Cinco de pastor, por favor</strong> — Five al pastor please</div>
+<div class="rule">🍺 <strong>Otra ronda</strong> — Another round</div>
+<div class="rule">🥵 <strong>Sin picante</strong> — No spice</div>
+<div class="rule">🧾 <strong>La cuenta, por favor</strong> — The check please</div>
+<div class="rule">💳 <strong>¿Aceptan tarjeta?</strong> — Do you take card?</div>
+<div class="rule">🥃 <strong>Un mezcal, derecho</strong> — A mezcal, neat</div>
+<div class="divider"></div>
+<strong>Getting Around</strong>
+<div class="rule">🚕 <strong>¿Cuánto cuesta?</strong> — How much?</div>
+<div class="rule">🚻 <strong>¿Dónde está el baño?</strong> — Where's the bathroom?</div>
+<div class="rule">📍 <strong>Aquí está bien</strong> — Here is fine (telling Uber to stop)</div>
+<div class="rule">🔄 <strong>A la derecha / izquierda</strong> — To the right / left</div>
+<div class="divider"></div>
+<strong>Going Out</strong>
+<div class="rule">🎉 <strong>¡Salud!</strong> — Cheers!</div>
+<div class="rule">🍻 <strong>¿Hay mesa para nueve?</strong> — Table for nine?</div>
+<div class="rule">🚪 <strong>¿Hay cover?</strong> — Is there a cover charge?</div>
+<div class="rule">🔥 <strong>¡Está chingón!</strong> — This is awesome! (slang, use with friends)</div>
+<div class="rule">💀 <strong>Estoy crudo</strong> — I'm hungover</div>
+</div></div>
+</div></div>
+
 <script>
 function toggleDay(el){
   const ds=el.closest('.ds');
@@ -1010,6 +1045,28 @@ function goNow(){
           caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
         }
         window.location.reload(true);
+      }
+      timer=setTimeout(()=>taps=0,1200);
+    });
+  });
+})();
+
+// 5-tap Nelson to reveal Spanish cheat sheet
+(function(){
+  let taps=0,timer;
+  const el=document.getElementById('nelsonTap');
+  ['click','touchend'].forEach(evt=>{
+    el.addEventListener(evt,(e)=>{
+      if(evt==='touchend') e.preventDefault();
+      taps++;
+      clearTimeout(timer);
+      if(taps>=5){
+        taps=0;
+        const s=document.getElementById('spanish');
+        s.style.display=s.style.display==='none'?'':'none';
+        if(s.style.display!=='none'){
+          s.scrollIntoView({behavior:'smooth',block:'start'});
+        }
       }
       timer=setTimeout(()=>taps=0,1200);
     });
